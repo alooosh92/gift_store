@@ -41,4 +41,6 @@ class Api {
       Uri.parse("$_api/StoreFavorite/DeleteStoreFavorite?id=$id");
   static Uri rateStore(String id, double rate) =>
       Uri.parse("$_api/Store/RateStore?id=$id&&rate=$rate");
+  static Uri getNumNotices = Uri.parse("$_api/UserNotices/getNumNotices");
+  static Uri getNotices = Uri.parse("$_api/UserNotices/GetNotices");
 }

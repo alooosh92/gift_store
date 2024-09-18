@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:gift_store/data/api.dart';
 import 'package:gift_store/data/models/favorite_store_model.dart';
+import 'package:gift_store/data/models/notices_model.dart';
 import 'package:gift_store/data/models/store_model.dart';
 import 'package:gift_store/screen/widget/dialog_progress.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,7 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
   int category = 0;
+  int numNotices = 0;
   int region = 0;
   String searchBar = "";
   List<StoreModel> allStore = [];
@@ -71,6 +73,7 @@ class HomeCubit extends Cubit<HomeState> {
   void getStore() async {
     emit(LodeingData());
     getStoreFavorite();
+    getNumNotices(true);
     allStore = [];
     http.Response response =
         await http.get(Api.getStore, headers: Api().headerWithToken());
@@ -180,5 +183,29 @@ class HomeCubit extends Cubit<HomeState> {
       Get.back();
       Get.snackbar("تحذير", "هناك خطأ ما الرجاء المحاولة لاحقاً");
     }
+  }
+
+  void getNumNotices(bool isStart) async {
+    http.Response response =
+        await http.get(Api.getNumNotices, headers: Api().headerWithToken());
+    if (response.statusCode == 200) {
+      numNotices = jsonDecode(response.body);
+      isStart ? emit(DataReady()) : null;
+    }
+  }
+
+  Future<List<NoticesModel>> getNotices() async {
+    List<NoticesModel> list = [];
+    http.Response response =
+        await http.get(Api.getNotices, headers: Api().headerWithToken());
+    if (response.statusCode == 200) {
+      var body = jsonDecode(response.body);
+      for (var element in body) {
+        list.add(NoticesModel.fromJson(element));
+      }
+      getNumNotices(false);
+      emit(DataReady());
+    }
+    return list;
   }
 }
