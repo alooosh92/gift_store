@@ -31,26 +31,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider<StartCubit>(
-            create: (context) => StartCubit()..start(),
-          ),
-          BlocProvider<HomeCubit>(
-            create: (context) => HomeCubit(),
-          )
-        ],
-        child: GetMaterialApp(
-            themeMode:
-                ThemeService.isLightTheme() ? ThemeMode.light : ThemeMode.dark,
-            darkTheme: ThemeService().darkMode,
-            debugShowCheckedModeBanner: false,
-            theme: ThemeService().lightTheme,
-            locale: LocalizationsManager.locale,
-            translations: LocalizationsManager.translations,
-            fallbackLocale: LocalizationsManager.fallbackLocale,
-            defaultTransition: LocalizationsManager.defaultTransition,
-            supportedLocales: LocalizationsManager.supportedLocales,
-            localizationsDelegates: LocalizationsManager.localizationsDelegates,
-            home: const StartScreen()));
+      providers: [
+        BlocProvider<StartCubit>(
+          create: (context) => StartCubit()..start(),
+        ),
+        BlocProvider<HomeCubit>(
+          create: (context) => HomeCubit(),
+        )
+      ],
+      child: GetMaterialApp(
+        themeMode:
+            ThemeService.isLightTheme() ? ThemeMode.light : ThemeMode.dark,
+        darkTheme: ThemeService().darkMode,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeService().lightTheme,
+        locale: LocalizationsManager.locale,
+        translations: LocalizationsManager.translations,
+        fallbackLocale: LocalizationsManager.fallbackLocale,
+        defaultTransition: LocalizationsManager.defaultTransition,
+        supportedLocales: LocalizationsManager.supportedLocales,
+        localizationsDelegates: LocalizationsManager.localizationsDelegates,
+        home: const StartScreen(),
+      ),
+    );
   }
 }

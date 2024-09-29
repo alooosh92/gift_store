@@ -10,77 +10,77 @@ import 'package:gift_store/screen/notices/notices_screen.dart';
 
 AppBar appBarHome(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
   return AppBar(
-      bottomOpacity: 0.8,
-      elevation: 2,
-      shadowColor: ColorsManager.gray,
-      title: const Text('الصفحة الرئيسية'),
-      actions: [
-        IconButton(
-            onPressed: () => Get.to(const NoticesScreen(),
-                transition: Transition.fade,
-                duration: const Duration(seconds: 1)),
-            icon: Row(
-              children: [
-                Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                    child: bloc.BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        return Text(
-                          bloc.BlocProvider.of<HomeCubit>(context).numNotices !=
-                                  0
-                              ? bloc.BlocProvider.of<HomeCubit>(context)
-                                  .numNotices
-                                  .toString()
-                              : "",
-                          style: FontManager.s14w600cR,
-                        );
-                      },
-                    )),
-                const FaIcon(
-                  FontAwesomeIcons.bell,
-                ),
-              ],
-            ))
-      ],
-      leading: IconButton(
-        onPressed: () {
-          scaffoldKey.currentState!.openDrawer();
-        },
-        icon: const FaIcon(FontAwesomeIcons.bars),
-      ),
-      bottom: PreferredSize(
-          preferredSize: Size(MediaQuery.sizeOf(context).width, 165),
-          child: Column(
+    bottomOpacity: 0.8,
+    elevation: 2,
+    shadowColor: ColorsManager.gray,
+    title: const Text('الصفحة الرئيسية'),
+    actions: [
+      IconButton(
+          onPressed: () => Get.to(const NoticesScreen(),
+              transition: Transition.fade,
+              duration: const Duration(seconds: 1)),
+          icon: Row(
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: SearchBar(
-                  backgroundColor:
-                      const WidgetStatePropertyAll(ColorsManager.white),
-                  leading: const FaIcon(
-                    FontAwesomeIcons.magnifyingGlass,
-                    color: ColorsManager.darkGray,
-                    size: 14,
-                  ),
-                  padding: const WidgetStatePropertyAll(
-                      EdgeInsets.symmetric(horizontal: 15, vertical: 5)),
-                  hintText: "بحث",
-                  onChanged: (val) {
-                    bloc.BlocProvider.of<HomeCubit>(context)
-                        .changeTextSearchBar(val);
-                  },
-                ),
+              Container(
+                  decoration:
+                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                  child: bloc.BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      return Text(
+                        bloc.BlocProvider.of<HomeCubit>(context).numNotices != 0
+                            ? bloc.BlocProvider.of<HomeCubit>(context)
+                                .numNotices
+                                .toString()
+                            : "",
+                        style: FontManager.s14w600cR,
+                      );
+                    },
+                  )),
+              const FaIcon(
+                FontAwesomeIcons.bell,
               ),
-              RowGategore(
-                list: bloc.BlocProvider.of<HomeCubit>(context).regions,
-                isRegion: true,
-              ),
-              RowGategore(
-                list: bloc.BlocProvider.of<HomeCubit>(context).listCategore,
-                isRegion: false,
-              )
             ],
-          )));
+          ))
+    ],
+    leading: IconButton(
+      onPressed: () {
+        scaffoldKey.currentState!.openDrawer();
+      },
+      icon: const FaIcon(FontAwesomeIcons.bars),
+    ),
+    bottom: PreferredSize(
+      preferredSize: Size(MediaQuery.sizeOf(context).width, 165),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: SearchBar(
+              backgroundColor:
+                  const WidgetStatePropertyAll(ColorsManager.white),
+              leading: const FaIcon(
+                FontAwesomeIcons.magnifyingGlass,
+                color: ColorsManager.darkGray,
+                size: 14,
+              ),
+              padding: const WidgetStatePropertyAll(
+                  EdgeInsets.symmetric(horizontal: 15, vertical: 5)),
+              hintText: "بحث",
+              onChanged: (val) {
+                bloc.BlocProvider.of<HomeCubit>(context)
+                    .changeTextSearchBar(val);
+              },
+            ),
+          ),
+          RowGategore(
+            list: bloc.BlocProvider.of<HomeCubit>(context).regions,
+            isRegion: true,
+          ),
+          RowGategore(
+            list: bloc.BlocProvider.of<HomeCubit>(context).listCategore,
+            isRegion: false,
+          )
+        ],
+      ),
+    ),
+  );
 }
