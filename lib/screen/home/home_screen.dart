@@ -9,6 +9,7 @@ import 'package:gift_store/data/colors.dart';
 import 'package:gift_store/data/font.dart';
 import 'package:gift_store/data/models/store_model.dart';
 import 'package:gift_store/data/values.dart';
+import 'package:gift_store/screen/about_us/about_us.dart';
 import 'package:gift_store/screen/home/widget/app_bar_home.dart';
 import 'package:rate/rate.dart';
 
@@ -51,7 +52,11 @@ class DrawerWedget extends StatelessWidget {
               DrawerItem(text: "طلباتي", press: () {}),
               DrawerItem(text: "سياسة الخصوصية", press: () {}),
               DrawerItem(text: "شروط الاستخدام", press: () {}),
-              DrawerItem(text: "من نحن", press: () {}),
+              DrawerItem(
+                  text: "من نحن",
+                  press: () {
+                    Get.to(const AboutUsScreen());
+                  }),
               DrawerItem(
                   text: "تسجيل خروج", press: () {}, withOutDivider: true),
             ],
