@@ -5,17 +5,20 @@ import 'package:get/get.dart';
 import 'package:gift_store/controller/home_cubit/home_cubit.dart';
 import 'package:gift_store/data/colors.dart';
 import 'package:gift_store/data/font.dart';
-import 'package:gift_store/data/models/store_model.dart';
 import 'package:rate/rate.dart';
 
-class RatestartButton extends StatelessWidget {
-  const RatestartButton({
+class RateStartButton extends StatelessWidget {
+  const RateStartButton({
     super.key,
-    required this.store,
+    required this.id,
+    required this.isStore,
+    required this.start,
+    required this.numRate,
   });
-
-  final StoreModel store;
-
+  final double start;
+  final String id;
+  final bool isStore;
+  final double numRate;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -32,8 +35,12 @@ class RatestartButton extends StatelessWidget {
                 )),
             TextButton(
                 onPressed: () {
-                  bloc.BlocProvider.of<HomeCubit>(context)
-                      .rateStore(store.id, rate);
+                  if (isStore) {
+                    bloc.BlocProvider.of<HomeCubit>(context)
+                        .rateStore(id, rate);
+                  } else {
+                    //is item
+                  }
                 },
                 child: Text(
                   "تقييم",
@@ -60,18 +67,18 @@ class RatestartButton extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            " (${store.numRate.toInt()}) ",
-            style: FontManager.s14w400cDg,
+            " (${numRate.toInt()}) ",
+            style: FontManager.s14w600cB,
           ),
           SizedBox(
             height: 20,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: store.rate.round() == 0 ? 1 : store.rate.round(),
+              itemCount: start.round() == 0 ? 1 : start.round(),
               itemBuilder: (context, index) => FaIcon(
                 FontAwesomeIcons.solidStar,
-                color: store.rate.toInt() != 0
+                color: start.toInt() != 0
                     ? ColorsManager.primary
                     : ColorsManager.whiteDark1,
                 size: 14,

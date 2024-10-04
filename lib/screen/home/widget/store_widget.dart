@@ -74,7 +74,12 @@ class StoreWidget extends StatelessWidget {
                                     color: ColorsManager.red,
                                   ),
                           ),
-                          RatestartButton(store: store),
+                          RateStartButton(
+                            id: store.id,
+                            isStore: true,
+                            numRate: store.numRate,
+                            start: store.rate,
+                          ),
                         ],
                       ),
                     )

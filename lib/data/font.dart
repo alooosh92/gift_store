@@ -10,6 +10,7 @@ class FontManager {
   static TextStyle s14w500cDb = ts(14, FontWeight.w500, null);
   static TextStyle s14w500cP = ts(14, FontWeight.w500, ColorsManager.primary);
   static TextStyle s18w700cW = ts(18, FontWeight.w700, ColorsManager.white);
+  static TextStyle s18w700cB = ts(18, FontWeight.w700, ColorsManager.black);
   static TextStyle s22w700cB = ts(22, FontWeight.w800, ColorsManager.black);
   static TextStyle s16w400cDg = ts(16, FontWeight.w400, ColorsManager.darkGray);
   static TextStyle s20w700cB = ts(20, FontWeight.w700, null);
@@ -17,6 +18,7 @@ class FontManager {
   static TextStyle s14w500cB = ts(14, FontWeight.w500, null);
   static TextStyle s32w600cB = ts(32, FontWeight.w600, ColorsManager.black);
   static TextStyle s14w400cDg = ts(14, FontWeight.w400, ColorsManager.darkGray);
+  static TextStyle s14w600cB = ts(14, FontWeight.w600, ColorsManager.black);
   static TextStyle s16w700cB = ts(16, FontWeight.w700, ColorsManager.black);
   static TextStyle s16w700cP = ts(16, FontWeight.w700, ColorsManager.primary);
   static TextStyle s14w600cR = ts(14, FontWeight.w600, ColorsManager.red);
