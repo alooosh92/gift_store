@@ -1,15 +1,4 @@
-class ImageModel {
-  late String? type;
-  late String? url;
-
-  ImageModel({required this.type, required this.url});
-  factory ImageModel.fromJson(Map<String, dynamic> json) {
-    return ImageModel(
-      type: json['type'],
-      url: json['url'],
-    );
-  }
-}
+import 'package:gift_store/data/models/image_model.dart';
 
 class StoreModel {
   late String id;

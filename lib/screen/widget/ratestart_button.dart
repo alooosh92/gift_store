@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart' as bloc;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:gift_store/controller/home_cubit/home_cubit.dart';
+import 'package:gift_store/controller/store_cubit/store_cubit.dart';
 import 'package:gift_store/data/colors.dart';
 import 'package:gift_store/data/font.dart';
 import 'package:rate/rate.dart';
@@ -39,7 +40,8 @@ class RateStartButton extends StatelessWidget {
                     bloc.BlocProvider.of<HomeCubit>(context)
                         .rateStore(id, rate);
                   } else {
-                    //is item
+                    bloc.BlocProvider.of<StoreCubit>(context)
+                        .rateGift(id, rate);
                   }
                 },
                 child: Text(

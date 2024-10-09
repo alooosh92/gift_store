@@ -7,6 +7,7 @@ import 'package:gift_store/controller/store_cubit/store_cubit.dart';
 import 'package:gift_store/data/api.dart';
 import 'package:gift_store/data/colors.dart';
 import 'package:gift_store/data/font.dart';
+import 'package:gift_store/data/models/gift_model.dart';
 import 'package:gift_store/data/models/store_model.dart';
 import 'package:gift_store/screen/store/widget/bottom_navigation_bar_store.dart';
 import 'package:gift_store/screen/widget/ratestart_button.dart';
@@ -87,9 +88,9 @@ class StoreScreen extends StatelessWidget {
                               kBottomNavigationBarHeight -
                               340,
                           child: PageView.builder(
-                            itemCount: pages.length,
+                            itemCount: pages(store).length,
                             itemBuilder: (context, index) {
-                              return pages[index];
+                              return pages(store)[index];
                             },
                           ),
                         )
@@ -106,30 +107,34 @@ class StoreScreen extends StatelessWidget {
   }
 }
 
-List<Widget> pages = [
-  const StoreHome(),
-  Container(),
-  Container(),
-];
+List<Widget> pages(StoreModel store) => [
+      StoreHome(store: store),
+      Container(),
+      Container(),
+    ];
 
 class StoreHome extends StatelessWidget {
-  const StoreHome({super.key});
-
+  const StoreHome({super.key, required this.store});
+  final StoreModel store;
   @override
   Widget build(BuildContext context) {
     double size = MediaQuery.sizeOf(context).width / 2 - 20 > 200
         ? 200
         : MediaQuery.sizeOf(context).width / 2 - 20;
-    return BlocBuilder<StoreCubit, StoreState>(
-      builder: (context, state) {
-        return FutureBuilder(
-            future: BlocProvider.of<StoreCubit>(context).getItem(),
-            builder: (context, snapshot) {
+    return FutureBuilder(
+        future: BlocProvider.of<StoreCubit>(context).getItem(store.id),
+        builder: (context, snapshot) {
+          return BlocBuilder<StoreCubit, StoreState>(
+            builder: (context, state) {
               return GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, crossAxisSpacing: 10),
-                itemCount: 2,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                itemCount: BlocProvider.of<StoreCubit>(context).giftList.length,
                 itemBuilder: (context, index) {
+                  GiftModel gift =
+                      BlocProvider.of<StoreCubit>(context).giftList[index];
                   return InkWell(
                     onTap: () {
                       BlocProvider.of<StoreCubit>(context).changeItem(index);
@@ -139,11 +144,18 @@ class StoreHome extends StatelessWidget {
                         Container(
                           height: size,
                           width: size,
-                          decoration: const BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              image: DecorationImage(
-                                  image: AssetImage('asset/images/1.png'))),
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            image: DecorationImage(
+                              image: CachedNetworkImageProvider(
+                                  '${Api.storeGift}/${gift.giftImages.where((element) => element.type == "Icon").firstOrNull?.url}',
+                                  errorListener: (p0) =>
+                                      const Icon(Icons.error),
+                                  cacheManager: CachedNetworkImageProvider
+                                      .defaultCacheManager),
+                            ),
+                          ),
                           child: Visibility(
                             maintainAnimation: true,
                             maintainState: true,
@@ -169,15 +181,35 @@ class StoreHome extends StatelessWidget {
                                         borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(10),
                                             bottomRight: Radius.circular(10))),
-                                    child: const Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
+                                        InkWell(
+                                          onTap: () => gift.favorate ?? false
+                                              ? BlocProvider.of<StoreCubit>(
+                                                      context)
+                                                  .removeGiftFromFavorite(
+                                                      gift.favorateId!)
+                                              : BlocProvider.of<StoreCubit>(
+                                                      context)
+                                                  .addGiftToFavorite(gift.id),
+                                          child: gift.favorate ?? false
+                                              ? const FaIcon(
+                                                  FontAwesomeIcons.solidHeart,
+                                                  color: ColorsManager.red,
+                                                )
+                                              : const FaIcon(
+                                                  FontAwesomeIcons.heart,
+                                                  color: ColorsManager.red,
+                                                ),
+                                        ),
                                         RateStartButton(
-                                          id: "",
+                                          id: gift.id,
                                           isStore: false,
-                                          numRate: 100,
-                                          start: 4,
-                                        )
+                                          numRate: gift.numRate,
+                                          start: gift.rate,
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -211,14 +243,14 @@ class StoreHome extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Text(
-                                      'الوجبة الملكية',
+                                      gift.name,
                                       style: FontManager.s18w700cB,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     SizedBox(
                                       height: 80,
                                       child: Text(
-                                        'مزيج رائع من ارز مع الدجاج المحمر على الفحم مع الخلطة من البهارات الخاصة',
+                                        gift.miniDescription,
                                         style: FontManager.s16w700cB,
                                         overflow: TextOverflow.fade,
                                       ),
@@ -248,8 +280,8 @@ class StoreHome extends StatelessWidget {
                   );
                 },
               );
-            });
-      },
-    );
+            },
+          );
+        });
   }
 }

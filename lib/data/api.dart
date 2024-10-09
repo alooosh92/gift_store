@@ -35,12 +35,22 @@ class Api {
   static Uri getStore = Uri.parse("$_api/Store/GetAllStore");
   static Uri getStoreFavorite =
       Uri.parse("$_api/StoreFavorite/GetAllStoreFavorite");
+  static Uri getGiftFavorite =
+      Uri.parse("$_api/GiftFavorite/GetAllGiftFavorite");
   static Uri addStoreFavorite =
       Uri.parse("$_api/StoreFavorite/CreateStoreFavorite");
   static Uri removeStoreFavorite(String id) =>
       Uri.parse("$_api/StoreFavorite/DeleteStoreFavorite?id=$id");
   static Uri rateStore(String id, double rate) =>
       Uri.parse("$_api/Store/RateStore?id=$id&&rate=$rate");
+  static Uri rateGift(String id, double rate) =>
+      Uri.parse("$_api/Gift/RateGift?id=$id&&rate=$rate");
   static Uri getNumNotices = Uri.parse("$_api/UserNotices/getNumNotices");
   static Uri getNotices = Uri.parse("$_api/UserNotices/GetNotices");
+  static Uri getItemForStore(String id) =>
+      Uri.parse("$_api/Gift/GetAllGift?id=$id");
+  static Uri addGiftFavorite =
+      Uri.parse("$_api/GiftFavorite/CreateGiftFavorite");
+  static Uri removeGiftFavorite(String id) =>
+      Uri.parse("$_api/GiftFavorite/DeleteGiftFavorite?id=$id");
 }

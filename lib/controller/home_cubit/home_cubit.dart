@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:gift_store/data/api.dart';
-import 'package:gift_store/data/models/favorite_store_model.dart';
+import 'package:gift_store/data/models/favorite_model.dart';
 import 'package:gift_store/data/models/notices_model.dart';
 import 'package:gift_store/data/models/store_model.dart';
 import 'package:gift_store/screen/widget/dialog_progress.dart';
@@ -20,7 +20,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<StoreModel> searchStore = [];
   List<String> regions = ["الكل"];
   List<String> listCategore = ["الكل"];
-  List<FavoriteStoreModel> listStoreFavorite = [];
+  List<FavoriteModel> listStoreFavorite = [];
 
   void changeTextSearchBar(String val) {
     searchBar = val;
@@ -114,7 +114,7 @@ class HomeCubit extends Cubit<HomeState> {
     if (response.statusCode == 200) {
       var body = jsonDecode(response.body);
       for (var element in body) {
-        listStoreFavorite.add(FavoriteStoreModel.fromJson(element));
+        listStoreFavorite.add(FavoriteModel.fromJson(element, 'store'));
       }
     }
   }
@@ -125,8 +125,8 @@ class HomeCubit extends Cubit<HomeState> {
     http.Response response = await http.post(Api.addStoreFavorite,
         headers: Api().headerWithToken(), body: body);
     if (response.statusCode == 200) {
-      var bo = FavoriteStoreModel.fromJson(jsonDecode(response.body));
-      listStoreFavorite.add(FavoriteStoreModel(id: bo.id, store: id));
+      var bo = FavoriteModel.fromJson(jsonDecode(response.body), 'store');
+      listStoreFavorite.add(FavoriteModel(id: bo.id, store: id));
       var fav = allStore.where((element) => element.id == id).firstOrNull;
       if (fav != null) {
         fav.favorate = true;
