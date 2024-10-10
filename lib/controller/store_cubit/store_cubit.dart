@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:gift_store/data/api.dart';
+import 'package:gift_store/data/colors.dart';
 import 'package:gift_store/data/models/favorite_model.dart';
 import 'package:gift_store/data/models/gift_model.dart';
 import 'package:gift_store/screen/widget/dialog_progress.dart';
@@ -65,6 +66,10 @@ class StoreCubit extends Cubit<StoreState> {
       emit(StoreReady());
     }
     Get.back();
+    Get.snackbar('ملاحظة', 'تمت الاضافة الى المفضلة',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: ColorsManager.primary,
+        colorText: ColorsManager.black);
   }
 
   void removeGiftFromFavorite(String id) async {
@@ -84,6 +89,10 @@ class StoreCubit extends Cubit<StoreState> {
       emit(StoreReady());
     }
     Get.back();
+    Get.snackbar('ملاحظة', 'تمت الحذف من المفضلة',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: ColorsManager.primary,
+        colorText: ColorsManager.black);
   }
 
   void rateGift(String id, double rate) async {
