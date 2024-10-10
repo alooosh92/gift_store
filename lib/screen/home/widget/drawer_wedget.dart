@@ -6,10 +6,8 @@ import 'package:gift_store/screen/about_us/about_us.dart';
 import 'package:gift_store/screen/home/widget/drawer_item.dart';
 
 class DrawerWedget extends StatelessWidget {
-  const DrawerWedget({
-    super.key,
-  });
-
+  const DrawerWedget({super.key, required this.scaffoldKey});
+  final GlobalKey<ScaffoldState> scaffoldKey;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -32,6 +30,7 @@ class DrawerWedget extends StatelessWidget {
               DrawerItem(
                   text: "من نحن",
                   press: () {
+                    scaffoldKey.currentState!.closeDrawer();
                     Get.to(const AboutUsScreen());
                   }),
               DrawerItem(

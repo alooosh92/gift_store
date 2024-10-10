@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       key: scaffoldKey,
       appBar: appBarHome(context, scaffoldKey),
-      drawer: const DrawerWedget(),
+      drawer: DrawerWedget(scaffoldKey: scaffoldKey),
       body: const HomeBody(),
     );
   }
