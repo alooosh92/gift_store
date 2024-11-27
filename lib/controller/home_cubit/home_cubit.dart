@@ -15,6 +15,7 @@ class HomeCubit extends Cubit<HomeState> {
   int category = 0;
   int numNotices = 0;
   int region = 0;
+  String unFinishOrderNum = "";
   String searchBar = "";
   List<StoreModel> allStore = [];
   List<StoreModel> searchStore = [];
@@ -207,5 +208,19 @@ class HomeCubit extends Cubit<HomeState> {
       emit(DataReady());
     }
     return list;
+  }
+
+  Future<void> unFinishOrder() async {
+    http.Response response =
+        await http.get(Api.unfinishOrder, headers: Api().headerWithToken());
+    if (response.statusCode == 200) {
+      int body = jsonDecode(response.body);
+      if (body == 0) {
+        unFinishOrderNum = "";
+      } else {
+        unFinishOrderNum = body.toString();
+      }
+      emit(DataReady());
+    }
   }
 }

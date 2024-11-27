@@ -26,4 +26,10 @@ Map<String, String> en = {
   "errorAdmin": "Something went wrong please contact the administrator",
   "ok": "Ok",
   "SIOLI": "Session is over Log in",
+  "AppRoval": "Approval",
+  "Delivered": "Delivered",
+  "Reade For Delivery": "Reade for delivery",
+  "Verification": "Verification",
+  "Watting For Delivery": "Watting for delivery",
+  "NewCreate": "New create",
 };

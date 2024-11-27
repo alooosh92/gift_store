@@ -53,4 +53,11 @@ class Api {
       Uri.parse("$_api/GiftFavorite/CreateGiftFavorite");
   static Uri removeGiftFavorite(String id) =>
       Uri.parse("$_api/GiftFavorite/DeleteGiftFavorite?id=$id");
+  static Uri openOrder = Uri.parse("$_api/Order/OpenOrder");
+  static Uri creatorder = Uri.parse("$_api/Order/CreateOrder");
+  static Uri addItem = Uri.parse("$_api/Order/AddItemToOrder");
+  static Uri unfinishOrder = Uri.parse('$_api/Order/UnFinishOrder');
+  static Uri getAllOrder = Uri.parse('$_api/Order/GetAllOrder');
+  static Uri approvalOrder(String id) =>
+      Uri.parse('$_api/Order/AppRoval?id=$id');
 }

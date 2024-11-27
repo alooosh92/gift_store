@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 import 'package:gift_store/controller/home_cubit/home_cubit.dart';
 import 'package:gift_store/data/colors.dart';
 import 'package:gift_store/data/font.dart';
+import 'package:gift_store/screen/home/widget/massege_button.dart';
 import 'package:gift_store/screen/home/widget/row_gategore.dart';
-import 'package:gift_store/screen/notices/notices_screen.dart';
+import 'package:gift_store/screen/orders/orders_screen.dart';
 
 AppBar appBarHome(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
   return AppBar(
@@ -15,32 +16,40 @@ AppBar appBarHome(BuildContext context, GlobalKey<ScaffoldState> scaffoldKey) {
     shadowColor: ColorsManager.gray,
     title: const Text('الصفحة الرئيسية'),
     actions: [
+      const MassegeButton(),
       IconButton(
-          onPressed: () => Get.to(const NoticesScreen(),
-              transition: Transition.fade,
-              duration: const Duration(seconds: 1)),
-          icon: Row(
-            children: [
-              Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(10)),
-                  child: bloc.BlocBuilder<HomeCubit, HomeState>(
-                    builder: (context, state) {
-                      return Text(
-                        bloc.BlocProvider.of<HomeCubit>(context).numNotices != 0
-                            ? bloc.BlocProvider.of<HomeCubit>(context)
-                                .numNotices
-                                .toString()
-                            : "",
-                        style: FontManager.s14w600cR,
-                      );
-                    },
-                  )),
-              const FaIcon(
-                FontAwesomeIcons.bell,
-              ),
-            ],
-          ))
+        onPressed: () {
+          Get.to(
+            const OrdersScreen(),
+            transition: Transition.fade,
+            duration: const Duration(seconds: 1),
+          );
+        },
+        icon: Row(
+          children: [
+            Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                child: bloc.BlocBuilder<HomeCubit, HomeState>(
+                  builder: (context, state) {
+                    return FutureBuilder(
+                        future: bloc.BlocProvider.of<HomeCubit>(context)
+                            .unFinishOrder(),
+                        builder: (context, snapshot) {
+                          return Text(
+                            bloc.BlocProvider.of<HomeCubit>(context)
+                                .unFinishOrderNum,
+                            style: FontManager.s14w600cR,
+                          );
+                        });
+                  },
+                )),
+            const FaIcon(
+              Icons.shopping_cart_outlined,
+            ),
+          ],
+        ),
+      ),
     ],
     leading: IconButton(
       onPressed: () {

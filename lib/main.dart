@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:gift_store/controller/home_cubit/home_cubit.dart';
+import 'package:gift_store/controller/order_cubit/order_cubit.dart';
 import 'package:gift_store/controller/start_cubit/start_cubit.dart';
 import 'package:gift_store/controller/store_cubit/store_cubit.dart';
 import 'package:gift_store/data/locale-master/localizations_manager.dart';
@@ -41,6 +42,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<StoreCubit>(
           create: (context) => StoreCubit(),
+        ),
+        BlocProvider<OrderCubit>(
+          create: (context) => OrderCubit(),
         )
       ],
       child: GetMaterialApp(

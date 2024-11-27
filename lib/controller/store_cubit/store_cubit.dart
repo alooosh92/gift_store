@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -5,7 +6,10 @@ import 'package:gift_store/data/api.dart';
 import 'package:gift_store/data/colors.dart';
 import 'package:gift_store/data/models/favorite_model.dart';
 import 'package:gift_store/data/models/gift_model.dart';
+import 'package:gift_store/data/models/item_model.dart';
+import 'package:gift_store/data/models/order_model.dart';
 import 'package:gift_store/screen/widget/dialog_progress.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 part 'store_state.dart';
@@ -15,6 +19,8 @@ class StoreCubit extends Cubit<StoreState> {
   int itemChase = -1;
   List<GiftModel> giftList = [];
   List<FavoriteModel> listGiftFavorite = [];
+  LatLng? local;
+
   void changeItem(int i) {
     if (i == itemChase) {
       itemChase = -1;
@@ -109,5 +115,47 @@ class StoreCubit extends Cubit<StoreState> {
       Get.back();
       Get.snackbar("تحذير", "هناك خطأ ما الرجاء المحاولة لاحقاً");
     }
+  }
+
+  void changeLocal(LatLng? ll) {
+    local = ll;
+    emit(StoreChangeLocal());
+  }
+
+  Future<String?> openOrder() async {
+    dialogProgress();
+    http.Response response =
+        await http.get(Api.openOrder, headers: Api().headerWithToken());
+    if (response.statusCode != 200) {
+      Get.back();
+      return null;
+    }
+    Get.back();
+    return jsonDecode(response.body);
+  }
+
+  Future<String?> addOrder(OrderModel orderModel) async {
+    dialogProgress();
+    http.Response response = await http.post(Api.creatorder,
+        headers: Api().headerWithToken(),
+        body: jsonEncode(orderModel.tojson()));
+    if (response.statusCode == 200) {
+      Get.back();
+      return jsonDecode(response.body)['id'];
+    }
+    Get.back();
+    return null;
+  }
+
+  Future<bool> addItem(ItemModel itemModel) async {
+    dialogProgress();
+    http.Response response = await http.post(Api.addItem,
+        headers: Api().headerWithToken(), body: jsonEncode(itemModel.toJson()));
+    if (response.statusCode == 200) {
+      Get.back();
+      return jsonDecode(response.body);
+    }
+    Get.back();
+    return false;
   }
 }

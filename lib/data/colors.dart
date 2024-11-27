@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ColorsManager {
   static const Color primary = Color(0xFFFAD11F);
+  static const Color green = Color.fromARGB(255, 54, 163, 96);
   static const Color white = Color(0xFFFFFFFF);
   static const Color whiteDark1 = Color.fromARGB(255, 192, 192, 192);
   static const Color whiteDark2 = Color(0xFFE9E9E9);

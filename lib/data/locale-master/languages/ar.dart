@@ -26,4 +26,10 @@ Map<String, String> ar = {
   "errorAdmin": "هناك خطأ ما الرجاء الاتصال بالمسؤول",
   "ok": "موافق",
   "SIOLI": "الجلسة منتهية سجل دخول",
+  "AppRoval": "تم التثبيت",
+  "Delivered": "تم التوصيل",
+  "Reade For Delivery": "جاهز للتوصيل",
+  "Verification": "بانتظار القبول",
+  "Watting For Delivery": "بإنتظار شركة التوصيل",
+  "NewCreate": "طلبية جديدة",
 };
