@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:gift_store/data/api.dart';
@@ -20,6 +21,8 @@ class StoreCubit extends Cubit<StoreState> {
   List<GiftModel> giftList = [];
   List<FavoriteModel> listGiftFavorite = [];
   LatLng? local;
+  int page = 0;
+  PageController pageController = PageController(initialPage: 0);
 
   void changeItem(int i) {
     if (i == itemChase) {
@@ -157,5 +160,12 @@ class StoreCubit extends Cubit<StoreState> {
     }
     Get.back();
     return false;
+  }
+
+  void changePage(int num) {
+    page = num;
+    pageController.animateToPage(page,
+        duration: const Duration(milliseconds: 500), curve: Curves.linear);
+    emit(StoreReady());
   }
 }

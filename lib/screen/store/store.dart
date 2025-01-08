@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:gift_store/controller/store_cubit/store_cubit.dart';
 import 'package:gift_store/data/api.dart';
 import 'package:gift_store/data/colors.dart';
 import 'package:gift_store/data/font.dart';
 import 'package:gift_store/data/models/store_model.dart';
 import 'package:gift_store/screen/store/widget/bottom_navigation_bar_store.dart';
 import 'package:gift_store/screen/store/widget/store_home.dart';
+import 'package:gift_store/screen/store/widget/store_offers.dart';
 import 'package:gift_store/screen/widget/ratestart_button.dart';
 
 class StoreScreen extends StatelessWidget {
@@ -80,16 +83,22 @@ class StoreScreen extends StatelessWidget {
                       ),
                       const Divider(),
                       SizedBox(
-                        height: MediaQuery.sizeOf(context).height -
-                            kBottomNavigationBarHeight -
-                            340,
-                        child: PageView.builder(
-                          itemCount: pages(store).length,
-                          itemBuilder: (context, index) {
-                            return pages(store)[index];
-                          },
-                        ),
-                      )
+                          height: MediaQuery.sizeOf(context).height -
+                              kBottomNavigationBarHeight -
+                              340,
+                          child: BlocBuilder<StoreCubit, StoreState>(
+                            builder: (context, state) {
+                              return PageView.builder(
+                                controller: BlocProvider.of<StoreCubit>(context)
+                                    .pageController,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: pages(store).length,
+                                itemBuilder: (context, index) {
+                                  return pages(store)[index];
+                                },
+                              );
+                            },
+                          ))
                     ],
                   ),
                 ),
@@ -104,6 +113,6 @@ class StoreScreen extends StatelessWidget {
 
 List<Widget> pages(StoreModel store) => [
       StoreHome(store: store),
-      Container(),
+      StoreOffers(id: store.id),
       Container(),
     ];
